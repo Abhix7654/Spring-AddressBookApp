@@ -1,22 +1,29 @@
 package com.bridgelabz.addressbook.controller;
 
+import com.bridgelabz.addressbook.model.AddressBook;
+import com.bridgelabz.addressbook.service.AddressBookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/addressbook")
 public class AddressBookController {
 
+    @Autowired
+    private AddressBookService addressBookService;
+
     @GetMapping
-    public ResponseEntity<String> getAllContacts() {
-        return ResponseEntity.ok("Returning all contacts");
+    public ResponseEntity<List<AddressBook>> getAllContacts() {
+        return ResponseEntity.ok(addressBookService.getAllContacts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getContactById(@PathVariable int id) {
-        return ResponseEntity.ok("Returning contact with ID: " + id);
+    public ResponseEntity<AddressBook> getContactById(@PathVariable int id) {
+        return ResponseEntity.ok(addressBookService.getContactById(id));
     }
-
     @PostMapping
     public ResponseEntity<String> addContact(@RequestBody String contact) {
         return ResponseEntity.ok("Contact added: " + contact);
